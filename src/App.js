@@ -2,20 +2,36 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React2</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import SwipeableViews from 'react-swipeable-views';
+const styles = {
+  slide: {
+    padding: 15,
+    minHeight: 100,
+    color: '#fff',
+  },
+  slide1: {
+    background: '#FEA900',
+  },
+  slide2: {
+    background: '#B3DC4A',
+  },
+  slide3: {
+    background: '#6AC0FF',
+  },
+};
 
-export default App;
+const MyComponent = () => (
+  <SwipeableViews>
+    <div style={Object.assign({}, styles.slide, styles.slide1)}>
+      slide n°1
+    </div>
+    <div style={Object.assign({}, styles.slide, styles.slide2)}>
+      slide n°2
+    </div>
+    <div style={Object.assign({}, styles.slide, styles.slide3)}>
+      slide n°3
+    </div>
+  </SwipeableViews>
+);
+
+export default MyComponent;

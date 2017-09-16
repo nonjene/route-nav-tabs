@@ -3,3 +3,21 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.box{
+  height: 300px;
+  
+}
+
+.box1{
+  background:#AD87EB;
+}
+.box2{
+  background:skyblue;
+
+}
+
+.box3{
+    background:#87EB94;
+
+}
