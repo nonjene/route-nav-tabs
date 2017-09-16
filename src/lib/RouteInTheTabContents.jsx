@@ -2,24 +2,24 @@
  * @<RouteInTheTabContents/> 用法栗子🌰
  * <Router>
     <div className="wrapper">
-      <Route exact path="/" render={() => <Redirect to="/total" />} />
+      <Route exact path="/" render={() => <Redirect to="/content1" />} />
       {//开始}
       <RouteInTheTabContents
         basePath=""
         aoPath={[
           {
-            pathname: 'total',
-            tabName: '总资产',
-            className: 'box1',
+            pathname: 'content1',
+            tabName: 'tab1',
+            className: 'content1',
             component: Total
           },{
-            pathname: 'earning',
-            tabName: '累计收益',
-            className: 'box2',
+            pathname: 'content2',
+            tabName: 'tab2',
+            className: 'content2',
             component: Earning
           }
         ]}
-        className={{ content: 'box', wrap: 'page-wrap'}}
+        className={{ content: 'content', wrap: 'page-wrap'}}
       />
       {//结束}
       <Route path="/earning/:type" component={EarningDetail} className="box box3" />
@@ -39,12 +39,13 @@ const getIndex = (aoPath, page) =>
     else return rtn;
   }, 0);
 
-const RouteInTheBox = ({className, ...props}) => (
+const RouteInTheBox = ({ className, ...props }) => (
   <div className={className}>
     <Route {...props} />
   </div>
 );
-const getPage = (aoPath, index) => (aoPath[index] || {}).pathname || aoPath[0].pathname;
+const getPage = (aoPath, index) =>
+  (aoPath[index] || {}).pathname || aoPath[0].pathname;
 
 export default ({
   basePath = '',
@@ -58,7 +59,8 @@ export default ({
   ],
   className = {
     content: '',
-    wrap: ''
+    wrap: '',
+    contentWrap: ''
   }
 }) => {
   return (
@@ -78,20 +80,26 @@ export default ({
               />
             ))}
           </ul>
-          <SwipeableViews
-            index={getIndex(aoPath, page) || 0}
-            onChangeIndex={index => history.replace(`/${getPage(aoPath, index)}`)}
-          >
-            {aoPath.map((item, key) => (
-              <RouteInTheBox
-                path={`${basePath}/${item.pathname}`}
-                component={item.component}
-                className={`${className.content || ''} ${item.className || ''}`}
-                exact
-                key={key}
-              />
-            ))}
-          </SwipeableViews>
+          <div className={className.contentWrap}>
+            <SwipeableViews
+              style={{ height: '100%' }}
+              index={getIndex(aoPath, page) || 0}
+              onChangeIndex={index =>
+                history.replace(`/${getPage(aoPath, index)}`)}
+            >
+              {aoPath.map((item, key) => (
+                <RouteInTheBox
+                  path={`${basePath}/${item.pathname}`}
+                  /* maybe children is better */
+                  component={item.component}
+                  className={`${className.content || ''} ${item.className ||
+                    ''}`}
+                  exact
+                  key={key}
+                />
+              ))}
+            </SwipeableViews>
+          </div>
         </div>
       )}
     />
