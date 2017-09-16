@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
-import { matchPath } from 'react-router';
+//import { matchPath } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 
 import Earning from './earning';
@@ -24,55 +24,53 @@ const RouteInTheBox = props => (
 <Route exact path="/earning" component={Earning} />
 <Route path="/earning/:type" component={EarningDetail} />*/
 
-const indexMap = {
+const pageMapIndex = {
   total: 0,
-  earning: 1,
-  earningDetail: 2
-};
-const getIndex = path => {
-  const { params: { page, type } } = matchPath(path, {
-    path: '/:page?/:type?',
-    exact: true
-  });
-  return indexMap[page + (type ? 'Detail' : '')];
+  earning: 1
 };
 
+const getPage = index =>
+  Object.keys(pageMapIndex).find(name => pageMapIndex[name] === index);
 //location.pathname
 const Main = () => (
   <Router>
-    <Route
-      render={({ location }) => (
-        <div className="wrapper">
-          <Route exact path="/" render={() => <Redirect to="/total" />} />
-          <ul>
-            <NavLink to="/total" label="总资产" isExact={true} />
-            <NavLink to="/earning" label="累计收益" isExact={true} />
-          </ul>
-          <SwipeableViews
-            index={getIndex(location.pathname)}
-            onChangeIndex={() => console.log('change...')}
-          >
-            <RouteInTheBox
-              exact
-              path="/total"
-              component={Total}
-              className="box box1"
-            />
-            <RouteInTheBox
-              exact
-              path="/earning"
-              component={Earning}
-              className="box box2"
-            />
-            <RouteInTheBox
-              path="/earning/:type"
-              component={EarningDetail}
-              className="box box3"
-            />
-          </SwipeableViews>
-        </div>
-      )}
-    />
+    <div className="wrapper">
+      <Route exact path="/" render={() => <Redirect to="/total" />} />
+      <Route
+        exact
+        path="/:page"
+        render={({ history, match: { params: { page } } }) => (
+          <div className="page-wrap">
+            <ul>
+              <NavLink to="/total" label="总资产" isExact={true} replace />
+              <NavLink to="/earning" label="累计收益" isExact={true} replace />
+            </ul>
+            <SwipeableViews
+              index={pageMapIndex[page] || 0}
+              onChangeIndex={index => history.replace(`/${getPage(index)}`)}
+            >
+              <RouteInTheBox
+                exact
+                path="/total"
+                component={Total}
+                className="box box1"
+              />
+              <RouteInTheBox
+                exact
+                path="/earning"
+                component={Earning}
+                className="box box2"
+              />
+            </SwipeableViews>
+          </div>
+        )}
+      />
+      <Route
+        path="/earning/:type"
+        component={EarningDetail}
+        className="box box3"
+      />
+    </div>
   </Router>
 );
 
