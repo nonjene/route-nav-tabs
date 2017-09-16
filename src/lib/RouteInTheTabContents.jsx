@@ -1,30 +1,5 @@
 /**
- * @<RouteInTheTabContents/> 用法栗子🌰
- * <Router>
-    <div className="wrapper">
-      <Route exact path="/" render={() => <Redirect to="/content1" />} />
-      {//开始}
-      <RouteInTheTabContents
-        basePath=""
-        aoPath={[
-          {
-            pathname: 'content1',
-            tabName: 'tab1',
-            className: 'content1',
-            component: Total
-          },{
-            pathname: 'content2',
-            tabName: 'tab2',
-            className: 'content2',
-            component: Earning
-          }
-        ]}
-        className={{ content: 'content', wrap: 'page-wrap'}}
-      />
-      {//结束}
-      <Route path="/earning/:type" component={EarningDetail} className="box box3" />
-    </div>
-  </Router>
+ * @<RouteInTheTabContents/>
  */
 
 import React from 'react';
@@ -47,22 +22,41 @@ const RouteInTheBox = ({ className, ...props }) => (
 const getPage = (aoPath, index) =>
   (aoPath[index] || {}).pathname || aoPath[0].pathname;
 
-export default ({
-  basePath = '',
-  aoPath = [
-    {
-      pathname: 'page1',
-      tabName: 'tab1',
-      className: '',
-      component: <div />
+const getChildrenData = children => {
+  let data = {};
+
+  React.Children.forEach(children, ({ props, type }) => {
+    if (!props.pathname) return;
+
+    if (type.name === 'Tab') {
+      data[props.pathname] = {
+        ...data[props.pathname],
+        ...{
+          pathname: props.pathname,
+          tabName: props.desc
+        }
+      };
+    } else if (type.name === 'Content') {
+      data[props.pathname] = { ...data[props.pathname], ...props };
     }
-  ],
+  });
+  return Object.keys(data).map(pathname => data[pathname]);
+};
+
+export const Tab = () => {};
+export const Content = () => {};
+
+export const RouteInTheTabContents = ({
+  basePath = '',
+  
   className = {
-    content: '',
-    wrap: '',
-    contentWrap: ''
-  }
+    wrap: 'tab-contents',
+    contentWrap: 'contents',
+    content: 'content',
+  },
+  children
 }) => {
+  const aoPath = getChildrenData(children);
   return (
     <Route
       exact

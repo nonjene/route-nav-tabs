@@ -6,7 +6,11 @@ import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 import Content1 from './Content1';
 import Content2 from './Content2';
 import Content2Detail from './Content2Detail';
-import RouteInTheTabContents from '../lib/RouteInTheTabContents';
+import {
+  RouteInTheTabContents,
+  Tab,
+  Content
+} from '../lib/RouteInTheTabContents';
 
 //location.pathname
 const App = () => (
@@ -15,26 +19,25 @@ const App = () => (
       <Route exact path="/" render={() => <Redirect to="/content1" />} />
       <RouteInTheTabContents
         basePath=""
-        aoPath={[
-          {
-            pathname: 'content1',
-            tabName: 'tab1',
-            className: 'content-1',
-            component: Content1
-          },
-          {
-            pathname: 'content2',
-            tabName: 'tab2',
-            className: 'content-2',
-            component: Content2
-          }
-        ]}
         className={{
-          content: 'content',
-          wrap: 'page-wrap',
-          contentWrap: 'content-wrap'
+          wrap: 'tab-contents',
+          contentWrap: 'contents',
+          content: 'content'
         }}
-      />
+      >
+        <Tab pathname="content1" desc="tab1" />
+        <Tab pathname="content2" desc="tab2" />
+        <Content
+          pathname="content1"
+          className="content-1"
+          component={Content1}
+        />
+        <Content
+          pathname="content2"
+          className="content-2"
+          component={Content2}
+        />
+      </RouteInTheTabContents>
       <Route
         path="/Content2/:type"
         render={props => (

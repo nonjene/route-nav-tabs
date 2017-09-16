@@ -11,7 +11,7 @@ body {
   bottom:0;
   right:0;
 }
-.page-wrap>ul{
+.tab-contents>ul{
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -20,17 +20,17 @@ body {
   height: 40px;
   align-items: center;
 }
-.page-wrap>ul>.active{
+.tab-contents>ul>.active{
   
 }
-.content-wrap{
+.contents{
   position: absolute;
   top:40px;
   left: 0;
   bottom:0;
   right:0;
 }
-.content-wrap .react-swipeable-view-container{
+.contents .react-swipeable-view-container{
   height:100%;
 }
 .content{
