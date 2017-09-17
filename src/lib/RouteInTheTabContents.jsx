@@ -28,7 +28,7 @@ const getChildrenData = children => {
   React.Children.forEach(children, ({ props, type }) => {
     if (!props.pathname) return;
 
-    if (type.name === 'Tab') {
+    if (type() === 'Tab') {
       data[props.pathname] = {
         ...data[props.pathname],
         ...{
@@ -36,15 +36,16 @@ const getChildrenData = children => {
           tabName: props.desc
         }
       };
-    } else if (type.name === 'Content') {
+    } else if (type() === 'Content') {
       data[props.pathname] = { ...data[props.pathname], ...props };
     }
   });
   return Object.keys(data).map(pathname => data[pathname]);
 };
 
-export const Tab = () => {};
-export const Content = () => {};
+export const Tab = ()=> "Tab";
+export const Content = ()=> "Content";
+
 
 export const RouteInTheTabContents = ({
   basePath = '',
