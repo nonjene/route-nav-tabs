@@ -5,6 +5,8 @@ It is composed with [react-swipeable-views](https://github.com/oliviertassinari/
 
 ## usage
 
+run `npm i route-nav-tabs react-router-dom --save`
+
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
