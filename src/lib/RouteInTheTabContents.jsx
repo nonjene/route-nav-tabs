@@ -82,15 +82,14 @@ export const RouteInTheTabContents = ({
               onChangeIndex={index =>
                 history.replace(`/${getPage(aoPath, index)}`)}
             >
-              {aoPath.map((item, key) => (
+              {aoPath.map(({pathname, className: itemClassName, ...itemProps}, key) => (
                 <RouteInTheBox
-                  path={`${basePath}/${item.pathname}`}
-                  /* maybe children is better */
-                  component={item.component}
-                  className={`${className.content || ''} ${item.className ||
+                  path={`${basePath}/${pathname}`}
+                  className={`${className.content || ''} ${itemClassName ||
                     ''}`}
                   exact
                   key={key}
+                  {...itemProps}
                 />
               ))}
             </SwipeableViews>
