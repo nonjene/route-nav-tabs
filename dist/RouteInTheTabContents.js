@@ -59,12 +59,12 @@ var getChildrenData = function getChildrenData(children) {
 
     if (!props.pathname) return;
 
-    if (type.name === 'Tab') {
+    if (type() === 'Tab') {
       data[props.pathname] = _extends({}, data[props.pathname], {
         pathname: props.pathname,
         tabName: props.desc
       });
-    } else if (type.name === 'Content') {
+    } else if (type() === 'Content') {
       data[props.pathname] = _extends({}, data[props.pathname], props);
     }
   });
@@ -73,10 +73,14 @@ var getChildrenData = function getChildrenData(children) {
   });
 };
 
-var Tab = exports.Tab = function Tab() {};
-var Content = exports.Content = function Content() {};
+var Tab = exports.Tab = function Tab() {
+  return "Tab";
+};
+var Content = exports.Content = function Content() {
+  return "Content";
+};
 
-var RouteInTheTabContents = exports.RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
+var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
   var _ref3$basePath = _ref3.basePath,
       basePath = _ref3$basePath === undefined ? '' : _ref3$basePath,
       _ref3$className = _ref3.className,
@@ -122,15 +126,17 @@ var RouteInTheTabContents = exports.RouteInTheTabContents = function RouteInTheT
                 return history.replace('/' + getPage(aoPath, index));
               }
             },
-            aoPath.map(function (item, key) {
-              return _react2.default.createElement(RouteInTheBox, {
-                path: basePath + '/' + item.pathname
-                /* maybe children is better */
-                , component: item.component,
-                className: (className.content || '') + ' ' + (item.className || ''),
+            aoPath.map(function (_ref5, key) {
+              var pathname = _ref5.pathname,
+                  itemClassName = _ref5.className,
+                  itemProps = _objectWithoutProperties(_ref5, ['pathname', 'className']);
+
+              return _react2.default.createElement(RouteInTheBox, _extends({
+                path: basePath + '/' + pathname,
+                className: (className.content || '') + ' ' + (itemClassName || ''),
                 exact: true,
                 key: key
-              });
+              }, itemProps));
             })
           )
         )
@@ -138,3 +144,4 @@ var RouteInTheTabContents = exports.RouteInTheTabContents = function RouteInTheT
     }
   });
 };
+exports.RouteInTheTabContents = RouteInTheTabContents;
