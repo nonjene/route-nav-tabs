@@ -30,7 +30,7 @@ const App = () => (
         <Content
           pathname="content1"
           className="content-1"
-          component={Content1}
+          render={props=><Content1 foo="bar" {...props}/>}
         />
         <Content
           pathname="content2"
