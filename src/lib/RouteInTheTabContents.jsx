@@ -80,7 +80,7 @@ export const RouteInTheTabContents = ({
               style={{ height: '100%' }}
               index={getIndex(aoPath, page) || 0}
               onChangeIndex={index =>
-                history.replace(`/${getPage(aoPath, index)}`)}
+                history.replace(`${basePath}/${getPage(aoPath, index)}`)}
             >
               {aoPath.map(({pathname, className: itemClassName, ...itemProps}, key) => (
                 <RouteInTheBox

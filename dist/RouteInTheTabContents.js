@@ -123,7 +123,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
               style: { height: '100%' },
               index: getIndex(aoPath, page) || 0,
               onChangeIndex: function onChangeIndex(index) {
-                return history.replace('/' + getPage(aoPath, index));
+                return history.replace(basePath + '/' + getPage(aoPath, index));
               }
             },
             aoPath.map(function (_ref5, key) {
