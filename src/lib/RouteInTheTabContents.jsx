@@ -36,8 +36,6 @@ const RouteInTheBox = ({
             return <ShowAWhile component={render(props)} duration={!props.match && duration} />;
           }
           if(Component){
-            console.log(props.match)
-            console.log(duration)
             return <ShowAWhile component={<Component {...props}/>} duration={!props.match && duration} />;
           }
           return null;
