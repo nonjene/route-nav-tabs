@@ -5,12 +5,17 @@ export default class ShowAWhile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeout: false
+      showComponent: false
     };
   }
 
   componentDidMount() {
     const { duration } = this.props;
+    if(!duration){
+      this.setState({
+        showComponent: true
+      });
+    }
   }
   clearTimeout(){
     if (this.timeoutID) {
@@ -22,7 +27,7 @@ export default class ShowAWhile extends React.Component {
     this.timeoutID = setTimeout(() => {
       this.timeoutID = null;
       this.setState({
-        timeout: true
+        showComponent: false
       });
     }, duration);
   }
@@ -35,7 +40,7 @@ export default class ShowAWhile extends React.Component {
     } else {
       this.clearTimeout();
       this.setState({
-        timeout: false
+        showComponent: true
       });
     }
   }
@@ -45,6 +50,6 @@ export default class ShowAWhile extends React.Component {
   render() {
     const { component } = this.props;
     if (!component) return null;
-    return !this.state.timeout ? component : null;
+    return this.state.showComponent ? component : null;
   }
 }
