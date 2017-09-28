@@ -21,6 +21,10 @@ var _navLink = require('./navLink');
 
 var _navLink2 = _interopRequireDefault(_navLink);
 
+var _ShowAWhile = require('./ShowAWhile');
+
+var _ShowAWhile2 = _interopRequireDefault(_ShowAWhile);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; } /**
@@ -38,12 +42,32 @@ var getIndex = function getIndex(aoPath, page) {
 
 var RouteInTheBox = function RouteInTheBox(_ref) {
   var className = _ref.className,
-      props = _objectWithoutProperties(_ref, ['className']);
+      Component = _ref.component,
+      render = _ref.render,
+      children = _ref.children,
+      duration = _ref.duration,
+      props = _objectWithoutProperties(_ref, ['className', 'component', 'render', 'children', 'duration']);
 
+  var sub = function sub() {
+    return children ? _react2.default.createElement(_reactRouterDom.Route, _extends({ children: children }, props)) : _react2.default.createElement(_reactRouterDom.Route, _extends({
+      children: function children(props) {
+        if (props.history.action === 'POP' && !props.match) {
+          return null;
+        }
+        if (render) {
+          return _react2.default.createElement(_ShowAWhile2.default, { component: render(props), duration: !props.match && duration });
+        }
+        if (Component) {
+          return _react2.default.createElement(_ShowAWhile2.default, { component: _react2.default.createElement(Component, props), duration: !props.match && duration });
+        }
+        return null;
+      }
+    }, props));
+  };
   return _react2.default.createElement(
     'div',
     { className: className },
-    _react2.default.createElement(_reactRouterDom.Route, props)
+    sub()
   );
 };
 var getPage = function getPage(aoPath, index) {
@@ -74,15 +98,21 @@ var getChildrenData = function getChildrenData(children) {
 };
 
 var Tab = exports.Tab = function Tab() {
-  return "Tab";
+  return 'Tab';
 };
 var Content = exports.Content = function Content() {
-  return "Content";
+  return 'Content';
 };
 
 var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
   var _ref3$basePath = _ref3.basePath,
       basePath = _ref3$basePath === undefined ? '' : _ref3$basePath,
+      _ref3$duration = _ref3.duration,
+      duration = _ref3$duration === undefined ? 350 : _ref3$duration,
+      _ref3$easeFunction = _ref3.easeFunction,
+      easeFunction = _ref3$easeFunction === undefined ? 'cubic-bezier(0.15, 0.3, 0.25, 1)' : _ref3$easeFunction,
+      _ref3$delay = _ref3.delay,
+      delay = _ref3$delay === undefined ? 0 : _ref3$delay,
       _ref3$className = _ref3.className,
       className = _ref3$className === undefined ? {
     wrap: 'tab-contents',
@@ -120,6 +150,11 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
           _react2.default.createElement(
             _reactSwipeableViews2.default,
             {
+              springConfig: {
+                duration: duration + 'ms',
+                easeFunction: easeFunction,
+                delay: delay + 'ms'
+              },
               style: { height: '100%' },
               index: getIndex(aoPath, page) || 0,
               onChangeIndex: function onChangeIndex(index) {
@@ -135,6 +170,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
                 path: basePath + '/' + pathname,
                 className: (className.content || '') + ' ' + (itemClassName || ''),
                 exact: true,
+                duration: duration,
                 key: key
               }, itemProps));
             })

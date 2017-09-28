@@ -16,6 +16,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
+/* const routeChange = (history, e)=>{
+    e.preventDefault();
+    setTimeout(()=>{
+      if(props.replace){
+        history.replace(to);
+      }else{
+        history.push(to);
+      }
+    }, delay);
+    
+  } */
 exports.default = function (_ref) {
   var label = _ref.label,
       to = _ref.to,
