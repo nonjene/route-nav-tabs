@@ -6,32 +6,46 @@ export default class ShowAWhile extends React.Component {
     super(props);
     this.state = {
       timeout: false
-    }
+    };
   }
 
   componentDidMount() {
     const { duration } = this.props;
   }
-  componentWillReceiveProps({duration}){
-    if(duration){
-      this.timeout = setTimeout(() => {
-        this.timeout = null;
-        this.setState({
-          timeout: true
-        });
-      }, duration);
-    }else{
+  clearTimeout(){
+    if (this.timeoutID) {
+      clearTimeout(this.timeoutID);
+      this.timeoutID = null;
+    }
+  }
+  setTimeoutDisappear(duration){
+    this.timeoutID = setTimeout(() => {
+      this.timeoutID = null;
+      this.setState({
+        timeout: true
+      });
+    }, duration);
+  }
+  componentWillReceiveProps({ duration }) {
+    if(duration === this.props.duration) return;
+    
+    if (duration) {
+      this.clearTimeout();
+      this.setTimeoutDisappear(duration);
+    } else {
+      this.clearTimeout();
       this.setState({
         timeout: false
       });
     }
   }
-  componentWillUnmount(){
-    this.timeout && clearTimeout(this.timeout);
+  componentWillUnmount() {
+    this.timeoutID && clearTimeout(this.timeoutID);
   }
   render() {
-    const { component: Component } = this.props;
-    if(!Component) return null;
-    return !this.state.timeout ? Component:null;
+    const { component } = this.props;
+    if (!component) return null;
+    console.log(this.state.timeout);
+    return !this.state.timeout ? component : null;
   }
 }
