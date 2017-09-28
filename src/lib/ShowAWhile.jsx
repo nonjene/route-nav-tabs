@@ -45,7 +45,6 @@ export default class ShowAWhile extends React.Component {
   render() {
     const { component } = this.props;
     if (!component) return null;
-    console.log(this.state.timeout);
     return !this.state.timeout ? component : null;
   }
 }

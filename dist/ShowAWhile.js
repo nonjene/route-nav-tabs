@@ -99,7 +99,6 @@ var ShowAWhile = function (_React$Component) {
       var component = this.props.component;
 
       if (!component) return null;
-      console.log(this.state.timeout);
       return !this.state.timeout ? component : null;
     }
   }]);
