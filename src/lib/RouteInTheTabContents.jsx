@@ -43,17 +43,18 @@ const getChildrenData = children => {
   return Object.keys(data).map(pathname => data[pathname]);
 };
 
-export const Tab = ()=> "Tab";
-export const Content = ()=> "Content";
-
+export const Tab = () => 'Tab';
+export const Content = () => 'Content';
 
 export const RouteInTheTabContents = ({
   basePath = '',
-  
+  duration = 350,
+  easeFunction = 'cubic-bezier(0.15, 0.3, 0.25, 1)',
+  delay = 0,
   className = {
     wrap: 'tab-contents',
     contentWrap: 'contents',
-    content: 'content',
+    content: 'content'
   },
   children
 }) => {
@@ -72,26 +73,38 @@ export const RouteInTheTabContents = ({
                 isExact={true}
                 replace
                 key={key}
+                delay={duration}
               />
             ))}
           </ul>
           <div className={className.contentWrap}>
             <SwipeableViews
+              springConfig={{
+                duration: `${duration}ms`,
+                easeFunction,
+                delay: `${delay}ms`
+              }}
               style={{ height: '100%' }}
               index={getIndex(aoPath, page) || 0}
               onChangeIndex={index =>
-                history.replace(`${basePath}/${getPage(aoPath, index)}`)}
+                setTimeout(
+                  () =>
+                    history.replace(`${basePath}/${getPage(aoPath, index)}`),
+                  duration
+                )}
             >
-              {aoPath.map(({pathname, className: itemClassName, ...itemProps}, key) => (
-                <RouteInTheBox
-                  path={`${basePath}/${pathname}`}
-                  className={`${className.content || ''} ${itemClassName ||
-                    ''}`}
-                  exact
-                  key={key}
-                  {...itemProps}
-                />
-              ))}
+              {aoPath.map(
+                ({ pathname, className: itemClassName, ...itemProps }, key) => (
+                  <RouteInTheBox
+                    path={`${basePath}/${pathname}`}
+                    className={`${className.content || ''} ${itemClassName ||
+                      ''}`}
+                    exact
+                    key={key}
+                    {...itemProps}
+                  />
+                )
+              )}
             </SwipeableViews>
           </div>
         </div>

@@ -18,6 +18,7 @@ const App = () => (
     <div className="wrapper">
       <Route exact path="/" render={() => <Redirect to="/content1" />} />
       <RouteInTheTabContents
+        duration={400}
         basePath=""
         className={{
           wrap: 'tab-contents',
