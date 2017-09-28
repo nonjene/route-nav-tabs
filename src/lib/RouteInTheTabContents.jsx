@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 //import { matchPath } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 import NavLink from './navLink';
+import ShowAWhile from './ShowAWhile';
 
 const getIndex = (aoPath, page) =>
   aoPath.reduce((rtn, item, i) => {
@@ -14,11 +15,36 @@ const getIndex = (aoPath, page) =>
     else return rtn;
   }, 0);
 
-const RouteInTheBox = ({ className, ...props }) => (
-  <div className={className}>
-    <Route {...props} />
-  </div>
-);
+const RouteInTheBox = ({
+  className,
+  component:Component,
+  render,
+  children,
+  duration,
+  ...props
+}) => {
+  const sub = () =>
+    children ? (
+      <Route children={children} {...props} />
+    ) : (
+      <Route
+        children={props => {
+          if(props.history.action==='POP' && !props.match){
+            return null;
+          }
+          if(render){
+            return <ShowAWhile component={render(props)} duration={!props.match && duration} />;
+          }
+          if(Component){
+            return <ShowAWhile component={<Component {...props}/>} duration={!props.match && duration} />;
+          }
+          return null;
+        }}
+        {...props} 
+      />
+    );
+  return <div className={className}>{sub()}</div>;
+};
 const getPage = (aoPath, index) =>
   (aoPath[index] || {}).pathname || aoPath[0].pathname;
 
@@ -73,7 +99,6 @@ export const RouteInTheTabContents = ({
                 isExact={true}
                 replace
                 key={key}
-                delay={duration}
               />
             ))}
           </ul>
@@ -87,11 +112,8 @@ export const RouteInTheTabContents = ({
               style={{ height: '100%' }}
               index={getIndex(aoPath, page) || 0}
               onChangeIndex={index =>
-                setTimeout(
-                  () =>
-                    history.replace(`${basePath}/${getPage(aoPath, index)}`),
-                  duration
-                )}
+                history.replace(`${basePath}/${getPage(aoPath, index)}`)
+              }
             >
               {aoPath.map(
                 ({ pathname, className: itemClassName, ...itemProps }, key) => (
@@ -100,6 +122,7 @@ export const RouteInTheTabContents = ({
                     className={`${className.content || ''} ${itemClassName ||
                       ''}`}
                     exact
+                    duration={duration}
                     key={key}
                     {...itemProps}
                   />

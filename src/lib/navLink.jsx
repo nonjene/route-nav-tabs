@@ -1,6 +1,17 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
+/* const routeChange = (history, e)=>{
+    e.preventDefault();
+    setTimeout(()=>{
+      if(props.replace){
+        history.replace(to);
+      }else{
+        history.push(to);
+      }
+    }, delay);
+    
+  } */
 export default ({ label, to, isExact, ...props }) => (
   <Route
     path={to}
