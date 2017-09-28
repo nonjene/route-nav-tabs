@@ -35,6 +35,8 @@ export default class ShowAWhile extends React.Component {
     if(duration === this.props.duration) return;
     
     if (duration) {
+      if(!this.props.unmountWhenNotMatch) return;
+      
       this.clearTimeout();
       this.setTimeoutDisappear(duration);
     } else {

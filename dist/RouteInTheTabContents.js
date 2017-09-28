@@ -46,7 +46,9 @@ var RouteInTheBox = function RouteInTheBox(_ref) {
       render = _ref.render,
       children = _ref.children,
       duration = _ref.duration,
-      props = _objectWithoutProperties(_ref, ['className', 'component', 'render', 'children', 'duration']);
+      _ref$unmountWhenNotMa = _ref.unmountWhenNotMatch,
+      unmountWhenNotMatch = _ref$unmountWhenNotMa === undefined ? false : _ref$unmountWhenNotMa,
+      props = _objectWithoutProperties(_ref, ['className', 'component', 'render', 'children', 'duration', 'unmountWhenNotMatch']);
 
   var sub = function sub() {
     return children ? _react2.default.createElement(_reactRouterDom.Route, _extends({ children: children }, props)) : _react2.default.createElement(_reactRouterDom.Route, _extends({
@@ -55,10 +57,10 @@ var RouteInTheBox = function RouteInTheBox(_ref) {
           return null;
         }
         if (render) {
-          return _react2.default.createElement(_ShowAWhile2.default, { component: render(props), duration: !props.match && duration });
+          return _react2.default.createElement(_ShowAWhile2.default, { component: render(props), duration: !props.match && duration, unmountWhenNotMatch: unmountWhenNotMatch });
         }
         if (Component) {
-          return _react2.default.createElement(_ShowAWhile2.default, { component: _react2.default.createElement(Component, props), duration: !props.match && duration });
+          return _react2.default.createElement(_ShowAWhile2.default, { component: _react2.default.createElement(Component, props), duration: !props.match && duration, unmountWhenNotMatch: unmountWhenNotMatch });
         }
         return null;
       }

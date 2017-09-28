@@ -21,6 +21,7 @@ const RouteInTheBox = ({
   render,
   children,
   duration,
+  unmountWhenNotMatch = false,
   ...props
 }) => {
   const sub = () =>
@@ -33,10 +34,10 @@ const RouteInTheBox = ({
             return null;
           }
           if(render){
-            return <ShowAWhile component={render(props)} duration={!props.match && duration} />;
+            return <ShowAWhile component={render(props)} duration={!props.match && duration} unmountWhenNotMatch={unmountWhenNotMatch} />;
           }
           if(Component){
-            return <ShowAWhile component={<Component {...props}/>} duration={!props.match && duration} />;
+            return <ShowAWhile component={<Component {...props}/>} duration={!props.match && duration} unmountWhenNotMatch={unmountWhenNotMatch} />;
           }
           return null;
         }}

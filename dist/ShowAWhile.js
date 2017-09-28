@@ -31,7 +31,7 @@ var ShowAWhile = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ShowAWhile.__proto__ || Object.getPrototypeOf(ShowAWhile)).call(this, props));
 
     _this.state = {
-      timeout: false
+      showComponent: false
     };
     return _this;
   }
@@ -40,6 +40,12 @@ var ShowAWhile = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var duration = this.props.duration;
+
+      if (!duration) {
+        this.setState({
+          showComponent: true
+        });
+      }
     }
   }, {
     key: 'clearTimeout',
@@ -67,7 +73,7 @@ var ShowAWhile = function (_React$Component) {
       this.timeoutID = setTimeout(function () {
         _this2.timeoutID = null;
         _this2.setState({
-          timeout: true
+          showComponent: false
         });
       }, duration);
     }
@@ -79,12 +85,14 @@ var ShowAWhile = function (_React$Component) {
       if (duration === this.props.duration) return;
 
       if (duration) {
+        if (!this.props.unmountWhenNotMatch) return;
+
         this.clearTimeout();
         this.setTimeoutDisappear(duration);
       } else {
         this.clearTimeout();
         this.setState({
-          timeout: false
+          showComponent: true
         });
       }
     }
@@ -99,7 +107,7 @@ var ShowAWhile = function (_React$Component) {
       var component = this.props.component;
 
       if (!component) return null;
-      return !this.state.timeout ? component : null;
+      return this.state.showComponent ? component : null;
     }
   }]);
 

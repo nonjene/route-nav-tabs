@@ -36,7 +36,7 @@ const App = () => (
 
         {/* Content will receive and pass Route's render methods (component/render/children). */}
         <Content pathname="foo" className="content-foo" component={Foo} />
-        <Content pathname="bar" className="content-bar" render={props=><Bar {...props}/>} />
+        <Content pathname="bar" className="content-bar" render={props=><Bar {...props}/> unmountWhenNotMatch={true}} />
         
       </RouteInTheTabContents>
   </Router>
@@ -47,3 +47,10 @@ when navigate to `localhost:3000/#/foo`, Foo component will render.
 
 when swipe or tap the tabs from `foo` to `bar`, Foo will unmount and Bar will render.
 
+### API
+
+#### Content
+
+| props               | type    | default | description                                                                                                                                                                                              |
+|---------------------|---------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| unmountWhenNotMatch | boolean | false   | when switch to other tab, whether umount previous tab's component.  Only work when us  `component` or `render` as `Route`'s render function . If you choose `children` to render, this prop will ignore. |

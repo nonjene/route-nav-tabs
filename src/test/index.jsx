@@ -37,6 +37,7 @@ const App = () => (
           pathname="content2"
           className="content-2"
           component={Content2}
+          unmountWhenNotMatch={true}
         />
       </RouteInTheTabContents>
       <Route
