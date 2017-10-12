@@ -106,6 +106,14 @@ var Content = exports.Content = function Content() {
   return 'Content';
 };
 
+var style = {
+  slideContainer: {
+    height: '100%'
+  },
+  slideStyle: {
+    height: '100%'
+  }
+};
 var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
   var _ref3$basePath = _ref3.basePath,
       basePath = _ref3$basePath === undefined ? '' : _ref3$basePath,
@@ -157,7 +165,8 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
                 easeFunction: easeFunction,
                 delay: delay + 'ms'
               },
-              style: { height: '100%' },
+              style: style.slideContainer,
+              slideStyle: style.slideStyle,
               index: getIndex(aoPath, page) || 0,
               onChangeIndex: function onChangeIndex(index) {
                 return history.replace(basePath + '/' + getPage(aoPath, index));

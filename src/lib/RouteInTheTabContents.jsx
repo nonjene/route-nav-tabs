@@ -73,6 +73,14 @@ const getChildrenData = children => {
 export const Tab = () => 'Tab';
 export const Content = () => 'Content';
 
+const style = {
+  slideContainer: {
+    height: '100%'
+  },
+  slideStyle: {
+    height: '100%'
+  }
+};
 export const RouteInTheTabContents = ({
   basePath = '',
   duration = 350,
@@ -110,7 +118,8 @@ export const RouteInTheTabContents = ({
                 easeFunction,
                 delay: `${delay}ms`
               }}
-              style={{ height: '100%' }}
+              style={style.slideContainer}
+              slideStyle={style.slideStyle}
               index={getIndex(aoPath, page) || 0}
               onChangeIndex={index =>
                 history.replace(`${basePath}/${getPage(aoPath, index)}`)
