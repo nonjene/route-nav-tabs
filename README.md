@@ -53,4 +53,4 @@ when swipe or tap the tabs from `foo` to `bar`, Foo will unmount and Bar will re
 
 | props               | type    | default | description                                                                                                                                                                                              |
 |---------------------|---------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| unmountWhenNotMatch | boolean | false   | when switch to other tab, whether umount previous tab's component.  Only work when us  `component` or `render` as `Route`'s render function . If you choose `children` to render, this prop will ignore. |
+| unmountWhenNotMatch | boolean | false   | when tab switches, whether to umount previous tab's component.  Only work when using  `component` or `render` as `Route`'s render function . This prop will ignore if using `children` to render. |
