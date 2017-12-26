@@ -26,8 +26,11 @@ const App = () => (
           content: 'content'
         }}
       >
+      <div>
         <Tab pathname="content1" desc="tab1" />
         <Tab pathname="content2" desc="tab2" />
+      </div>
+       
         <Content
           pathname="content1"
           className="content-1"

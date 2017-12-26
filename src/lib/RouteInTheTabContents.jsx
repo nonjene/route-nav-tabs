@@ -49,25 +49,28 @@ const RouteInTheBox = ({
 const getPage = (aoPath, index) =>
   (aoPath[index] || {}).pathname || aoPath[0].pathname;
 
-const getChildrenData = children => {
-  let data = {};
-
+const getChildrenData = (children, host={}) => {
+  
   React.Children.forEach(children, ({ props, type }) => {
+    if(props.children){
+      getChildrenData(props.children, host);
+    }
+
     if (!props.pathname) return;
 
     if (type() === 'Tab') {
-      data[props.pathname] = {
-        ...data[props.pathname],
+      host[props.pathname] = {
+        ...host[props.pathname],
         ...{
           pathname: props.pathname,
           tabName: props.desc
         }
       };
     } else if (type() === 'Content') {
-      data[props.pathname] = { ...data[props.pathname], ...props };
+      host[props.pathname] = { ...host[props.pathname], ...props };
     }
   });
-  return Object.keys(data).map(pathname => data[pathname]);
+  return Object.keys(host).map(pathname => host[pathname]);
 };
 
 export const Tab = () => 'Tab';
