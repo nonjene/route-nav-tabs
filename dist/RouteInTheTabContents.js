@@ -77,25 +77,30 @@ var getPage = function getPage(aoPath, index) {
 };
 
 var getChildrenData = function getChildrenData(children) {
-  var data = {};
+  var host = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 
   _react2.default.Children.forEach(children, function (_ref2) {
     var props = _ref2.props,
         type = _ref2.type;
 
+    if (props.children) {
+      getChildrenData(props.children, host);
+    }
+
     if (!props.pathname) return;
 
     if (type() === 'Tab') {
-      data[props.pathname] = _extends({}, data[props.pathname], {
+      host[props.pathname] = _extends({}, host[props.pathname], {
         pathname: props.pathname,
         tabName: props.desc
       });
     } else if (type() === 'Content') {
-      data[props.pathname] = _extends({}, data[props.pathname], props);
+      host[props.pathname] = _extends({}, host[props.pathname], props);
     }
   });
-  return Object.keys(data).map(function (pathname) {
-    return data[pathname];
+  return Object.keys(host).map(function (pathname) {
+    return host[pathname];
   });
 };
 
