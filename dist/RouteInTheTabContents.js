@@ -134,6 +134,12 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
     contentWrap: 'contents',
     content: 'content'
   } : _ref3$className,
+      _ref3$style = _ref3.style,
+      style = _ref3$style === undefined ? {
+    wrap: {},
+    contentWrap: {},
+    content: {}
+  } : _ref3$style,
       children = _ref3.children;
 
   var aoPath = getChildrenData(children);
@@ -145,7 +151,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
           page = _ref4.match.params.page;
       return _react2.default.createElement(
         'div',
-        { className: className.wrap },
+        { className: className.wrap, style: style.wrap },
         _react2.default.createElement(
           'ul',
           null,
@@ -161,7 +167,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
         ),
         _react2.default.createElement(
           'div',
-          { className: className.contentWrap },
+          { className: className.contentWrap, style: style.contentWrap },
           _react2.default.createElement(
             _reactSwipeableViews2.default,
             {
@@ -185,6 +191,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
               return _react2.default.createElement(RouteInTheBox, _extends({
                 path: basePath + '/' + pathname,
                 className: (className.content || '') + ' ' + (itemClassName || ''),
+                style: style.contnet,
                 exact: true,
                 duration: duration,
                 key: key

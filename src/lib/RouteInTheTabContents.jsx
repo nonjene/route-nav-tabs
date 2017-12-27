@@ -94,6 +94,11 @@ export const RouteInTheTabContents = ({
     contentWrap: 'contents',
     content: 'content'
   },
+  style={
+    wrap: {},
+    contentWrap: {},
+    content: {}
+  },
   children
 }) => {
   const aoPath = getChildrenData(children);
@@ -102,7 +107,7 @@ export const RouteInTheTabContents = ({
       exact
       path={`${basePath}/:page`}
       render={({ history, match: { params: { page } } }) => (
-        <div className={className.wrap}>
+        <div className={className.wrap} style={style.wrap}>
           <ul>
             {aoPath.map((item, key) => (
               <NavLink
@@ -114,7 +119,7 @@ export const RouteInTheTabContents = ({
               />
             ))}
           </ul>
-          <div className={className.contentWrap}>
+          <div className={className.contentWrap} style={style.contentWrap}>
             <SwipeableViews
               springConfig={{
                 duration: `${duration}ms`,
@@ -134,6 +139,7 @@ export const RouteInTheTabContents = ({
                     path={`${basePath}/${pathname}`}
                     className={`${className.content || ''} ${itemClassName ||
                       ''}`}
+                    style={style.contnet}
                     exact
                     duration={duration}
                     key={key}
