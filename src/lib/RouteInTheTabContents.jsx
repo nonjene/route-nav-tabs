@@ -139,7 +139,7 @@ export const RouteInTheTabContents = ({
                     path={`${basePath}/${pathname}`}
                     className={`${className.content || ''} ${itemClassName ||
                       ''}`}
-                    style={style.contnet}
+                    style={style.content}
                     exact
                     duration={duration}
                     key={key}

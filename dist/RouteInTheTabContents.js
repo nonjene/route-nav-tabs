@@ -191,7 +191,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
               return _react2.default.createElement(RouteInTheBox, _extends({
                 path: basePath + '/' + pathname,
                 className: (className.content || '') + ' ' + (itemClassName || ''),
-                style: style.contnet,
+                style: style.content,
                 exact: true,
                 duration: duration,
                 key: key
