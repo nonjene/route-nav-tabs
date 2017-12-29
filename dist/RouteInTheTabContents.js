@@ -140,6 +140,8 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
     contentWrap: {},
     content: {}
   } : _ref3$style,
+      _ref3$SwipeableViewsO = _ref3.SwipeableViewsOpt,
+      SwipeableViewsOpt = _ref3$SwipeableViewsO === undefined ? {} : _ref3$SwipeableViewsO,
       children = _ref3.children;
 
   var aoPath = getChildrenData(children);
@@ -170,7 +172,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
           { className: className.contentWrap, style: style.contentWrap },
           _react2.default.createElement(
             _reactSwipeableViews2.default,
-            {
+            _extends({
               springConfig: {
                 duration: duration + 'ms',
                 easeFunction: easeFunction,
@@ -182,7 +184,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
               onChangeIndex: function onChangeIndex(index) {
                 return history.replace(basePath + '/' + getPage(aoPath, index));
               }
-            },
+            }, SwipeableViewsOpt),
             aoPath.map(function (_ref5, key) {
               var pathname = _ref5.pathname,
                   itemClassName = _ref5.className,

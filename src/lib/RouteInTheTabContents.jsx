@@ -99,6 +99,7 @@ export const RouteInTheTabContents = ({
     contentWrap: {},
     content: {}
   },
+  SwipeableViewsOpt={},
   children
 }) => {
   const aoPath = getChildrenData(children);
@@ -132,6 +133,7 @@ export const RouteInTheTabContents = ({
               onChangeIndex={index =>
                 history.replace(`${basePath}/${getPage(aoPath, index)}`)
               }
+              {...SwipeableViewsOpt}
             >
               {aoPath.map(
                 ({ pathname, className: itemClassName, ...itemProps }, key) => (
