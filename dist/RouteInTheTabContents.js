@@ -57,10 +57,18 @@ var RouteInTheBox = function RouteInTheBox(_ref) {
           return null;
         }
         if (render) {
-          return _react2.default.createElement(_ShowAWhile2.default, { component: render(props), duration: !props.match && duration, unmountWhenNotMatch: unmountWhenNotMatch });
+          return _react2.default.createElement(_ShowAWhile2.default, {
+            component: render(props),
+            duration: !props.match && duration,
+            unmountWhenNotMatch: unmountWhenNotMatch
+          });
         }
         if (Component) {
-          return _react2.default.createElement(_ShowAWhile2.default, { component: _react2.default.createElement(Component, props), duration: !props.match && duration, unmountWhenNotMatch: unmountWhenNotMatch });
+          return _react2.default.createElement(_ShowAWhile2.default, {
+            component: _react2.default.createElement(Component, props),
+            duration: !props.match && duration,
+            unmountWhenNotMatch: unmountWhenNotMatch
+          });
         }
         return null;
       }
@@ -79,7 +87,6 @@ var getPage = function getPage(aoPath, index) {
 var getChildrenData = function getChildrenData(children) {
   var host = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-
   _react2.default.Children.forEach(children, function (_ref2) {
     var props = _ref2.props,
         type = _ref2.type;
@@ -93,10 +100,11 @@ var getChildrenData = function getChildrenData(children) {
     if (type() === 'Tab') {
       host[props.pathname] = _extends({}, host[props.pathname], {
         pathname: props.pathname,
-        tabName: props.desc
+        tabName: props.desc,
+        tabExact: props.exact === undefined ? true : props.exact
       });
     } else if (type() === 'Content') {
-      host[props.pathname] = _extends({}, host[props.pathname], props);
+      host[props.pathname] = _extends({}, host[props.pathname], props, { contectExact: props.exact === undefined ? true : props.exact });
     }
   });
   return Object.keys(host).map(function (pathname) {
@@ -111,7 +119,7 @@ var Content = exports.Content = function Content() {
   return 'Content';
 };
 
-var style = {
+var defStyle = {
   slideContainer: {
     height: '100%'
   },
@@ -134,19 +142,22 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
     contentWrap: 'contents',
     content: 'content'
   } : _ref3$className,
+      _ref3$exact = _ref3.exact,
+      exact = _ref3$exact === undefined ? true : _ref3$exact,
       _ref3$style = _ref3.style,
-      style = _ref3$style === undefined ? {
-    wrap: {},
-    contentWrap: {},
-    content: {}
-  } : _ref3$style,
+      style = _ref3$style === undefined ? {} : _ref3$style,
       _ref3$SwipeableViewsO = _ref3.SwipeableViewsOpt,
       SwipeableViewsOpt = _ref3$SwipeableViewsO === undefined ? {} : _ref3$SwipeableViewsO,
       children = _ref3.children;
 
   var aoPath = getChildrenData(children);
+
+  var _onChangeIndex = SwipeableViewsOpt.onChangeIndex,
+      resSwipeableViewsOpt = _objectWithoutProperties(SwipeableViewsOpt, ['onChangeIndex']);
+
+  style = _extends({}, defStyle, style);
   return _react2.default.createElement(_reactRouterDom.Route, {
-    exact: true,
+    exact: exact,
     path: basePath + '/:page',
     render: function render(_ref4) {
       var history = _ref4.history,
@@ -161,7 +172,7 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
             return _react2.default.createElement(_navLink2.default, {
               to: basePath + '/' + item.pathname,
               label: item.tabName,
-              isExact: true,
+              isExact: item.tabExact,
               replace: true,
               key: key
             });
@@ -182,19 +193,21 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
               slideStyle: style.slideStyle,
               index: getIndex(aoPath, page) || 0,
               onChangeIndex: function onChangeIndex(index) {
-                return history.replace(basePath + '/' + getPage(aoPath, index));
+                history.replace(basePath + '/' + getPage(aoPath, index));
+                _onChangeIndex && _onChangeIndex(index);
               }
-            }, SwipeableViewsOpt),
+            }, resSwipeableViewsOpt),
             aoPath.map(function (_ref5, key) {
               var pathname = _ref5.pathname,
                   itemClassName = _ref5.className,
-                  itemProps = _objectWithoutProperties(_ref5, ['pathname', 'className']);
+                  contectExact = _ref5.contectExact,
+                  itemProps = _objectWithoutProperties(_ref5, ['pathname', 'className', 'contectExact']);
 
               return _react2.default.createElement(RouteInTheBox, _extends({
                 path: basePath + '/' + pathname,
                 className: (className.content || '') + ' ' + (itemClassName || ''),
                 style: style.content,
-                exact: true,
+                exact: contectExact,
                 duration: duration,
                 key: key
               }, itemProps));
