@@ -110,11 +110,7 @@ export const RouteInTheTabContents = ({
     contentWrap: 'contents',
     content: 'content'
   },
-  style = {
-    wrap: {},
-    contentWrap: {},
-    content: {}
-  },
+  style = {},
   SwipeableViewsOpt = {},
   children
 }) => {
