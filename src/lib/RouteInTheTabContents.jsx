@@ -17,7 +17,7 @@ const getIndex = (aoPath, page) =>
 
 const RouteInTheBox = ({
   className,
-  component:Component,
+  component: Component,
   render,
   children,
   duration,
@@ -30,18 +30,30 @@ const RouteInTheBox = ({
     ) : (
       <Route
         children={props => {
-          if(props.history.action==='POP' && !props.match){
+          if (props.history.action === 'POP' && !props.match) {
             return null;
           }
-          if(render){
-            return <ShowAWhile component={render(props)} duration={!props.match && duration} unmountWhenNotMatch={unmountWhenNotMatch} />;
+          if (render) {
+            return (
+              <ShowAWhile
+                component={render(props)}
+                duration={!props.match && duration}
+                unmountWhenNotMatch={unmountWhenNotMatch}
+              />
+            );
           }
-          if(Component){
-            return <ShowAWhile component={<Component {...props}/>} duration={!props.match && duration} unmountWhenNotMatch={unmountWhenNotMatch} />;
+          if (Component) {
+            return (
+              <ShowAWhile
+                component={<Component {...props} />}
+                duration={!props.match && duration}
+                unmountWhenNotMatch={unmountWhenNotMatch}
+              />
+            );
           }
           return null;
         }}
-        {...props} 
+        {...props}
       />
     );
   return <div className={className}>{sub()}</div>;
@@ -49,10 +61,9 @@ const RouteInTheBox = ({
 const getPage = (aoPath, index) =>
   (aoPath[index] || {}).pathname || aoPath[0].pathname;
 
-const getChildrenData = (children, host={}) => {
-  
+const getChildrenData = (children, host = {}) => {
   React.Children.forEach(children, ({ props, type }) => {
-    if(props.children){
+    if (props.children) {
       getChildrenData(props.children, host);
     }
 
@@ -63,11 +74,16 @@ const getChildrenData = (children, host={}) => {
         ...host[props.pathname],
         ...{
           pathname: props.pathname,
-          tabName: props.desc
+          tabName: props.desc,
+          tabExact: props.exact === undefined ? true : props.exact
         }
       };
     } else if (type() === 'Content') {
-      host[props.pathname] = { ...host[props.pathname], ...props };
+      host[props.pathname] = {
+        ...host[props.pathname],
+        ...props,
+        ...{ contectExact: props.exact === undefined ? true : props.exact }
+      };
     }
   });
   return Object.keys(host).map(pathname => host[pathname]);
@@ -76,7 +92,7 @@ const getChildrenData = (children, host={}) => {
 export const Tab = () => 'Tab';
 export const Content = () => 'Content';
 
-const style = {
+const defStyle = {
   slideContainer: {
     height: '100%'
   },
@@ -94,16 +110,16 @@ export const RouteInTheTabContents = ({
     contentWrap: 'contents',
     content: 'content'
   },
-  style={
+  style = {
     wrap: {},
     contentWrap: {},
     content: {}
   },
-  SwipeableViewsOpt={},
+  SwipeableViewsOpt = {},
   children
 }) => {
   const aoPath = getChildrenData(children);
-  const {onChangeIndex, ...resSwipeableViewsOpt} = SwipeableViewsOpt;
+  const { onChangeIndex, ...resSwipeableViewsOpt } = SwipeableViewsOpt;
   return (
     <Route
       exact
@@ -115,7 +131,7 @@ export const RouteInTheTabContents = ({
               <NavLink
                 to={`${basePath}/${item.pathname}`}
                 label={item.tabName}
-                isExact={true}
+                isExact={item.tabExact}
                 replace
                 key={key}
               />
@@ -128,23 +144,23 @@ export const RouteInTheTabContents = ({
                 easeFunction,
                 delay: `${delay}ms`
               }}
-              style={style.slideContainer}
-              slideStyle={style.slideStyle}
+              style={defStyle.slideContainer}
+              slideStyle={defStyle.slideStyle}
               index={getIndex(aoPath, page) || 0}
-              onChangeIndex={index =>{
+              onChangeIndex={index => {
                 history.replace(`${basePath}/${getPage(aoPath, index)}`);
                 onChangeIndex && onChangeIndex(index);
               }}
               {...resSwipeableViewsOpt}
             >
               {aoPath.map(
-                ({ pathname, className: itemClassName, ...itemProps }, key) => (
+                ({ pathname, className: itemClassName, contectExact, ...itemProps }, key) => (
                   <RouteInTheBox
                     path={`${basePath}/${pathname}`}
                     className={`${className.content || ''} ${itemClassName ||
                       ''}`}
                     style={style.content}
-                    exact
+                    exact={contectExact}
                     duration={duration}
                     key={key}
                     {...itemProps}
