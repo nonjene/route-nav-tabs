@@ -25,9 +25,10 @@ const App = () => (
           contentWrap: 'contents',
           content: 'content'
         }}
+        exact={false}
       >
       <div>
-        <Tab pathname="content1" desc="tab1" />
+        <Tab pathname="content1" desc="tab1" exact={false} />
         <Tab pathname="content2" desc="tab2" />
       </div>
        

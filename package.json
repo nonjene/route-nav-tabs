@@ -1,6 +1,6 @@
 {
   "name": "route-nav-tabs",
-  "version": "0.1.14",
+  "version": "0.2.0",
   "dependencies": {
     "react-swipeable-views": "^0.12.8"
   },

@@ -110,6 +110,7 @@ export const RouteInTheTabContents = ({
     contentWrap: 'contents',
     content: 'content'
   },
+  exact = true, // exact for `${basePath}/:page`. if true, the route of `basePath/page/xxx` will ignore the entire swipe component
   style = {},
   SwipeableViewsOpt = {},
   children
@@ -119,7 +120,7 @@ export const RouteInTheTabContents = ({
   style = {...defStyle, ...style};
   return (
     <Route
-      exact
+      exact={exact}
       path={`${basePath}/:page`}
       render={({ history, match: { params: { page } } }) => (
         <div className={className.wrap} style={style.wrap}>
