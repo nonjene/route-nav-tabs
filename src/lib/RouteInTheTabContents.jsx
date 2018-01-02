@@ -120,6 +120,7 @@ export const RouteInTheTabContents = ({
 }) => {
   const aoPath = getChildrenData(children);
   const { onChangeIndex, ...resSwipeableViewsOpt } = SwipeableViewsOpt;
+  style = {...defStyle, ...style};
   return (
     <Route
       exact
@@ -144,8 +145,8 @@ export const RouteInTheTabContents = ({
                 easeFunction,
                 delay: `${delay}ms`
               }}
-              style={defStyle.slideContainer}
-              slideStyle={defStyle.slideStyle}
+              style={style.slideContainer}
+              slideStyle={style.slideStyle}
               index={getIndex(aoPath, page) || 0}
               onChangeIndex={index => {
                 history.replace(`${basePath}/${getPage(aoPath, index)}`);
