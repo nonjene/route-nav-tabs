@@ -146,6 +146,8 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
       exact = _ref3$exact === undefined ? true : _ref3$exact,
       _ref3$style = _ref3.style,
       style = _ref3$style === undefined ? {} : _ref3$style,
+      _ref3$onRender = _ref3.onRender,
+      onRender = _ref3$onRender === undefined ? function () {} : _ref3$onRender,
       _ref3$SwipeableViewsO = _ref3.SwipeableViewsOpt,
       SwipeableViewsOpt = _ref3$SwipeableViewsO === undefined ? {} : _ref3$SwipeableViewsO,
       children = _ref3.children;
@@ -164,7 +166,9 @@ var RouteInTheTabContents = function RouteInTheTabContents(_ref3) {
           page = _ref4.match.params.page;
       return _react2.default.createElement(
         'div',
-        { className: className.wrap, style: style.wrap },
+        { className: className.wrap, style: style.wrap, ref: function ref(dom) {
+            dom && onRender(aoPath, dom);
+          } },
         _react2.default.createElement(
           'ul',
           null,

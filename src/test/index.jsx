@@ -26,6 +26,9 @@ const App = () => (
           content: 'content'
         }}
         exact={false}
+        onRender={(aoPath, dom)=>{
+          console.log(aoPath, dom)
+        }}
       >
       <div>
         <Tab pathname="content1" desc="tab1" exact={false} />

@@ -112,6 +112,7 @@ export const RouteInTheTabContents = ({
   },
   exact = true, // exact for `${basePath}/:page`. if true, the route of `basePath/page/xxx` will ignore the entire swipe component
   style = {},
+  onRender= ()=>{},
   SwipeableViewsOpt = {},
   children
 }) => {
@@ -123,7 +124,9 @@ export const RouteInTheTabContents = ({
       exact={exact}
       path={`${basePath}/:page`}
       render={({ history, match: { params: { page } } }) => (
-        <div className={className.wrap} style={style.wrap}>
+        <div className={className.wrap} style={style.wrap} ref={dom=>{
+          dom && onRender(aoPath, dom);
+        }}>
           <ul>
             {aoPath.map((item, key) => (
               <NavLink
